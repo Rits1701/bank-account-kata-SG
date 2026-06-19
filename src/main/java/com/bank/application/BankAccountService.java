@@ -11,13 +11,15 @@ import com.bank.ports.out.TransactionRepository;
 public class BankAccountService implements BankAccountUseCase {
     private final TransactionRepository repository;
     private final ClockProvider clock;
+    private final StatementPrinter printer;
     private Amount balance = Amount.of("0");
 
     public BankAccountService(
             TransactionRepository repository,
-            ClockProvider clock) {
+            ClockProvider clock, StatementPrinter printer) {
         this.repository = repository;
         this.clock = clock;
+        this.printer = printer;
     }
 
 
@@ -45,7 +47,13 @@ public class BankAccountService implements BankAccountUseCase {
     }
 
     public String printStatement() {
-        return "";
+        return printer.print(repository.findAll());
+    }
+
+    private void validate(Amount amount) {
+        if (amount == null || amount.isLessThanOrEqualZero()) {
+            throw new IllegalArgumentException("Amount must be strictly positive");
+        }
     }
 
 }

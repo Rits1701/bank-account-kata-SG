@@ -1,5 +1,6 @@
 package com.bank;
 
+import com.bank.adapters.out.ConsoleStatementPrinter;
 import com.bank.adapters.out.InMemoryTransactionRepository;
 import com.bank.application.BankAccountService;
 import com.bank.domain.model.Amount;
@@ -21,7 +22,8 @@ class AccountSpec {
 
         service = new BankAccountService(
                 new InMemoryTransactionRepository(),
-                clock);
+                clock,
+                new ConsoleStatementPrinter());
     }
 
     @Test
