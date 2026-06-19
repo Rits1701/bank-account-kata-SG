@@ -24,6 +24,7 @@ public class BankAccountService implements BankAccountUseCase {
 
 
     public void deposit(Amount amount) {
+        validate(amount);
         balance = balance.add(amount);
 
         repository.save(
@@ -36,6 +37,7 @@ public class BankAccountService implements BankAccountUseCase {
     }
 
     public void withdraw(Amount amount) {
+        validate(amount);
         balance = balance.subtract(amount);
 
         repository.save(

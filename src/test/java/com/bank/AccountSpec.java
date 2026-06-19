@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class AccountSpec {
 
@@ -46,5 +47,12 @@ class AccountSpec {
         assertThat(statement)
                 .contains("-300")
                 .contains("700");
+    }
+
+    @Test
+    void should_reject_negative_amount() {
+        assertThatThrownBy(() ->
+                service.deposit(Amount.of("-1")))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
